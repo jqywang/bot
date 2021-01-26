@@ -96,7 +96,6 @@ func (bb *BernzBot) HandleChat() error {
 		} else {
 			// handle a PRIVMSG message
 			matches := msgRegex.FindStringSubmatch(line)
-			fmt.Println("Logging matches", matches)
 			if nil != matches {
 				userName := matches[1]
 				msgType := matches[2]
@@ -109,23 +108,28 @@ func (bb *BernzBot) HandleChat() error {
 					// parse commands from user message
 					cmdMatches := cmdRegex.FindStringSubmatch(msg)
 					if nil != cmdMatches {
-						cmd := cmdMatches[1]
-						arg := cmdMatches[2]
+						cmd := strings.ToLower(cmdMatches[1])
+						arg := strings.ToLower(cmdMatches[2])
 						fmt.Println("Command received: ", cmd, arg)
 
 						// channel-owner specific commands
 						if userName == bb.Channel {
 							switch cmd {
-							case "tbdown":
-								fmt.Printf(
-									"[%s] Shutdown command gg'd received. Shutting down now...\n",
-									timeStamp(),
-								)
+								case "tbdown":
+									fmt.Printf(
+										"[%s] Shutdown command received. Shutting down now...\n",
+										timeStamp(),
+									)
 
-								bb.Disconnect()
-								return nil
-							default:
-								// do nothing
+									bb.Disconnect()
+									return nil
+								case "canyouhearme":
+									fmt.Println("hearing you")
+									// bb.Counter = bb.Counter + 1
+									bb.Say(fmt.Sprintf("hey there, bot reporting in! Couter is something"))
+									return nil
+								default:
+									// do nothing
 							}
 						}
 					}
@@ -250,6 +254,8 @@ type BernzBot struct {
 
 	// The domain of the IRC server.
 	Server string
+
+	Counter int
 
 	startTime time.Time
 }
