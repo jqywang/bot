@@ -110,15 +110,15 @@ func (bb *BernzBot) HandleChat() error {
 					cmdMatches := cmdRegex.FindStringSubmatch(msg)
 					if nil != cmdMatches {
 						cmd := cmdMatches[1]
-						fmt.Println("Command received: ", cmd)
-						//arg := cmdMatches[2]
+						arg := cmdMatches[2]
+						fmt.Println("Command received: ", cmd, arg)
 
 						// channel-owner specific commands
 						if userName == bb.Channel {
 							switch cmd {
 							case "tbdown":
 								fmt.Printf(
-									"[%s] Shutdown command received. Shutting down now...\n",
+									"[%s] Shutdown command gg'd received. Shutting down now...\n",
 									timeStamp(),
 								)
 
