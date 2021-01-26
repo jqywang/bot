@@ -96,6 +96,7 @@ func (bb *BernzBot) HandleChat() error {
 		} else {
 			// handle a PRIVMSG message
 			matches := msgRegex.FindStringSubmatch(line)
+			fmt.Println("Logging matches", matches)
 			if nil != matches {
 				userName := matches[1]
 				msgType := matches[2]
@@ -109,6 +110,7 @@ func (bb *BernzBot) HandleChat() error {
 					cmdMatches := cmdRegex.FindStringSubmatch(msg)
 					if nil != cmdMatches {
 						cmd := cmdMatches[1]
+						fmt.Println("Command received: ", cmd)
 						//arg := cmdMatches[2]
 
 						// channel-owner specific commands
@@ -206,10 +208,7 @@ func (bb *BernzBot) Start() {
 }
 
 type OAuthCred struct {
-
-	// The bot account's OAuth password. Thanks to the JSON syntax after the data type, this field
-	// will be filled with the value of the field with the specified key.
-	Password string `json:"password",omitempty`
+	Password string `json:"password,omitempty"`
 }
 
 type TwitchBot interface {
